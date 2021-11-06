@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Store {
+
     private final List<String> data = new ArrayList<>();
 
     public void add(String value) {

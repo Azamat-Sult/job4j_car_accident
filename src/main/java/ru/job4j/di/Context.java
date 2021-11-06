@@ -32,4 +32,5 @@ public class Context {
     public <T> T get(Class<T> inst) {
         return (T) els.get(inst.getCanonicalName());
     }
+
 }
