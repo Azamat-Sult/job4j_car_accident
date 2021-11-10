@@ -26,19 +26,26 @@
     </div>
     <div class="card" style="width: 100%">
         <div class="card-header">
-            Выводим таблицу List<"String"> через jstl
+            Список заявлений
         </div>
         <div class="card-body">
             <table class = "table table-bordered">
                 <thead>
                 <tr>
-                    <th scope="col">№</th>
-                    <th scope="col">Значение</th>
+                    <th scope="col">id</th>
+                    <th scope="col">Заявитель</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Адрес</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="string" items="${strings}" varStatus="сounter">
-                    <tr><td>${сounter.count}</td><td><c:out value="${string}"/></td></tr>
+                <c:forEach var="accident" items="${accidents}">
+                    <tr>
+                        <td><c:out value="${accident.value.id}"/></td>
+                        <td><c:out value="${accident.value.name}"/></td>
+                        <td><c:out value="${accident.value.text}"/></td>
+                        <td><c:out value="${accident.value.address}"/></td>
+                    </tr>
                 </c:forEach>
                 </tbody>
             </table>
