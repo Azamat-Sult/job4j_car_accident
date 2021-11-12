@@ -1,12 +1,7 @@
 package ru.job4j.accident.model;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import java.util.Objects;
 
-@Component
-@Scope("prototype")
 public class Accident {
     private int id;
     private String name;

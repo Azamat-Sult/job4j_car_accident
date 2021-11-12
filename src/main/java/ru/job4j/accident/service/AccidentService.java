@@ -2,22 +2,21 @@ package ru.job4j.accident.service;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Accident;
-import ru.job4j.accident.repository.AccidentMem;
+import ru.job4j.accident.repository.Store;
 
-import java.util.HashMap;
+import java.util.Collection;
 
 @Service
 public class AccidentService {
-    private static final class Lazy {
-        private static final AccidentService INST = new AccidentService();
+
+    private Store store;
+
+    public AccidentService(Store store) {
+        this.store = store;
     }
 
-    public static AccidentService instOf() {
-        return AccidentService.Lazy.INST;
-    }
-
-    public HashMap<Integer, Accident> getAllAccidents() {
-        AccidentMem.instOf().initAccidentMem();
-        return AccidentMem.instOf().getAllAccidents();
+    public Collection<Accident> getAllAccidents() {
+        store.init();
+        return store.getAllAccidents();
     }
 }

@@ -3,21 +3,26 @@ package ru.job4j.accident.repository;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 @Repository
-public class AccidentMem {
-    private static final class Lazy {
-        private static final AccidentMem INST = new AccidentMem();
-    }
-
-    public static AccidentMem instOf() {
-        return AccidentMem.Lazy.INST;
-    }
+public class AccidentMem implements Store {
 
     private HashMap<Integer, Accident> accidents = new HashMap<>();
 
-    public void initAccidentMem() {
+    @Override
+    public void addAccident(Accident accident) {
+        accidents.put(accident.getId(), accident);
+    }
+
+    @Override
+    public Collection<Accident> getAllAccidents() {
+        return accidents.values();
+    }
+
+    @Override
+    public void init() {
         if (accidents.isEmpty()) {
             Accident accident1 = new Accident(1, "name 1", "description 1", "adress 1");
             Accident accident2 = new Accident(2, "name 2", "description 2", "adress 2");
@@ -28,13 +33,5 @@ public class AccidentMem {
             addAccident(accident3);
             addAccident(accident4);
         }
-    }
-
-    public void addAccident(Accident accident) {
-        accidents.put(accident.getId(), accident);
-    }
-
-    public HashMap<Integer, Accident> getAllAccidents() {
-        return accidents;
     }
 }
