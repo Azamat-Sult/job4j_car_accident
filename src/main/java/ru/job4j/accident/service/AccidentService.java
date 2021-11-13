@@ -15,8 +15,20 @@ public class AccidentService {
         this.store = store;
     }
 
+    public void addAccident(Accident accident) {
+        store.addAccident(accident);
+    }
+
+    public Accident getAccidentById(int id) {
+        return store.getAccidentById(id);
+    }
+
     public Collection<Accident> getAllAccidents() {
         store.init();
         return store.getAllAccidents();
+    }
+
+    public void deleteAccident(int id) {
+        store.deleteAccident(id);
     }
 }

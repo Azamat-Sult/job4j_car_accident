@@ -10,6 +10,10 @@ public interface Store {
 
     Collection<Accident> getAllAccidents();
 
+    Accident getAccidentById(int id);
+
+    void deleteAccident(int id);
+
     void init();
 
 }

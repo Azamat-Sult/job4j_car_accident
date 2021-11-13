@@ -22,6 +22,16 @@ public class AccidentMem implements Store {
     }
 
     @Override
+    public Accident getAccidentById(int id) {
+        return accidents.get(id);
+    }
+
+    @Override
+    public void deleteAccident(int id) {
+        accidents.remove(id);
+    }
+
+    @Override
     public void init() {
         if (accidents.isEmpty()) {
             Accident accident1 = new Accident(1, "name 1", "description 1", "adress 1");
