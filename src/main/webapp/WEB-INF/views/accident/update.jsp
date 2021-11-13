@@ -50,6 +50,23 @@
                         </div>
                         <div class="col">
                             <div class="form-group">
+                                <label for="type.id">Тип происшествия</label>
+                                <select class="form-control" name="type.id" id="type.id">
+                                    <c:forEach var="type" items="${types}" >
+                                        <c:if test="${accident.type.id == type.id}">
+                                            <option value="${type.id}" selected>${type.name}</option>
+                                        </c:if>
+                                        <c:if test="${accident.type.id != type.id}">
+                                            <option value="${type.id}">${type.name}</option>
+                                        </c:if>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
                                 <label for="address">Адрес</label>
                                 <input type="text" class="form-control" name="address" id="address" value="<c:out value="${accident.address}"/>">
                             </div>

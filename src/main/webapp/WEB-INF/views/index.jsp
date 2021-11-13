@@ -42,6 +42,7 @@
                 <tr>
                     <th scope="col">id</th>
                     <th scope="col">Заявитель</th>
+                    <th scope="col">Тип происшествия</th>
                     <th scope="col">Описание</th>
                     <th scope="col">Адрес</th>
                 </tr>
@@ -51,6 +52,7 @@
                     <tr>
                         <td><c:out value="${accident.id}"/></td>
                         <td><c:out value="${accident.name}"/></td>
+                        <td><c:out value="${accident.type.name}"/></td>
                         <td><c:out value="${accident.text}"/></td>
                         <td><c:out value="${accident.address}"/></td>
                         <td>
