@@ -30,13 +30,13 @@ public class AccidentControl {
     }
 
     @GetMapping("/update")
-    public String update(@RequestParam int id, Model model) {
+    public String update(@RequestParam("id") int id, Model model) {
         model.addAttribute("accident", accidentService.getAccidentById(id));
         return "accident/update";
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam int id) {
+    public String delete(@RequestParam("id") int id) {
         accidentService.deleteAccident(id);
         return "redirect:/";
     }
