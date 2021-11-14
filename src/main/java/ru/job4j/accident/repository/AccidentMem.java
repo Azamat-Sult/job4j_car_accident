@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-@Repository
+//@Repository
 public class AccidentMem implements Store {
 
     private HashMap<Integer, AccidentType> accidentTypes = new HashMap<>();
@@ -19,8 +19,13 @@ public class AccidentMem implements Store {
 
     private HashMap<Integer, Rule> rules = new HashMap<>();
 
+    private int accidentsCounter = 1;
+
     @Override
     public void addAccident(Accident accident) {
+        if (accident.getId() == 0) {
+            accident.setId(accidentsCounter++);
+        }
         accidents.put(accident.getId(), accident);
     }
 
@@ -39,7 +44,7 @@ public class AccidentMem implements Store {
         accidents.remove(id);
     }
 
-    public void addAccidentType(AccidentType accidentType) {
+    private void addAccidentType(AccidentType accidentType) {
         accidentTypes.put(accidentType.getId(), accidentType);
     }
 
@@ -48,11 +53,12 @@ public class AccidentMem implements Store {
         return accidentTypes.values();
     }
 
+    @Override
     public AccidentType getAccidentTypeById(int id) {
         return accidentTypes.get(id);
     }
 
-    public void addAccidentRule(Rule rule) {
+    private void addAccidentRule(Rule rule) {
         rules.put(rule.getId(), rule);
     }
 
@@ -92,37 +98,37 @@ public class AccidentMem implements Store {
             Set<Rule> set1 = new HashSet<>();
             set1.add(getAccidentRuleById(1));
             set1.add(getAccidentRuleById(2));
-            Accident accident1 = new Accident(1, "name 1", "description 1",
+            Accident accident1 = new Accident(0, "name 1", "description 1",
                     "adress 1", getAccidentTypeById(1), set1);
 
             Set<Rule> set2 = new HashSet<>();
             set2.add(getAccidentRuleById(1));
             set2.add(getAccidentRuleById(3));
-            Accident accident2 = new Accident(2, "name 2", "description 2",
+            Accident accident2 = new Accident(0, "name 2", "description 2",
                     "adress 2", getAccidentTypeById(2), set2);
 
             Set<Rule> set3 = new HashSet<>();
             set3.add(getAccidentRuleById(1));
             set3.add(getAccidentRuleById(4));
-            Accident accident3 = new Accident(3, "name 3", "description 3",
+            Accident accident3 = new Accident(0, "name 3", "description 3",
                     "adress 3", getAccidentTypeById(3), set3);
 
             Set<Rule> set4 = new HashSet<>();
             set4.add(getAccidentRuleById(2));
             set4.add(getAccidentRuleById(3));
-            Accident accident4 = new Accident(4, "name 4", "description 4",
+            Accident accident4 = new Accident(0, "name 4", "description 4",
                     "adress 4", getAccidentTypeById(1), set4);
 
             Set<Rule> set5 = new HashSet<>();
             set5.add(getAccidentRuleById(2));
             set5.add(getAccidentRuleById(4));
-            Accident accident5 = new Accident(5, "name 5", "description 5",
+            Accident accident5 = new Accident(0, "name 5", "description 5",
                     "adress 5", getAccidentTypeById(2), set5);
 
             Set<Rule> set6 = new HashSet<>();
             set6.add(getAccidentRuleById(3));
             set6.add(getAccidentRuleById(4));
-            Accident accident6 = new Accident(6, "name 6", "description 6",
+            Accident accident6 = new Accident(0, "name 6", "description 6",
                     "adress 6", getAccidentTypeById(3), set6);
             addAccident(accident1);
             addAccident(accident2);

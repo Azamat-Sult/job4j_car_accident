@@ -41,12 +41,7 @@
             <div class="card-body">
                 <form id="form1" name="form1" action="<c:url value='/save'/>" method="POST">
                     <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="id">id</label>
-                                <input type="text" class="form-control" name="id" id="id">
-                            </div>
-                        </div>
+                        <input type="text" class="form-control" name="id" id="id" value="0" hidden>
                         <div class="col">
                             <div class="form-group">
                                 <label for="name">Заявитель</label>
