@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-//@Repository
+/*@Repository*/
 public class AccidentMem implements Store {
 
     private HashMap<Integer, AccidentType> accidentTypes = new HashMap<>();
