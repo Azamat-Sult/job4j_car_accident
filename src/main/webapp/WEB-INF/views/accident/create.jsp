@@ -67,6 +67,20 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
+                                <label for="rules">Статья(и) правонарушения</label>
+                                <div class="col-sm-2">
+                                    <select name="rIds" multiple id="rules">
+                                        <c:forEach var="rule" items="${rules}">
+                                            <option value="${rule.id}">${rule.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
                                 <label for="address">Адрес</label>
                                 <input type="text" class="form-control" name="address" id="address">
                             </div>
