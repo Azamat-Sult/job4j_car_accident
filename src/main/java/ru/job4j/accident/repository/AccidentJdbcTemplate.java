@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-@Repository
+/*@Repository*/
 public class AccidentJdbcTemplate implements Store {
 
     private final JdbcTemplate jdbc;
@@ -147,9 +147,6 @@ public class AccidentJdbcTemplate implements Store {
                     return Rule.of(dbId, ruleName);
                 });
     }
-
-    @Override
-    public void init() { }
 
     private Set<Rule> getAccidentsRulesById(int id) {
         Collection<Rule> rulesFound = jdbc.query(

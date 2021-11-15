@@ -34,17 +34,14 @@ public class AccidentService {
     }
 
     public Collection<Accident> getAllAccidents() {
-        store.init();
         return store.getAllAccidents();
     }
 
     public Collection<AccidentType> getAllAccidentTypes() {
-        store.init();
         return store.getAllAccidentTypes();
     }
 
     public Collection<Rule> getAllAccidentRules() {
-        store.init();
         return store.getAllAccidentRules();
     }
 

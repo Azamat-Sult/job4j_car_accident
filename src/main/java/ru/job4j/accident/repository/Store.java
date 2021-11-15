@@ -24,6 +24,4 @@ public interface Store {
 
     Rule getAccidentRuleById(int id);
 
-    void init();
-
 }

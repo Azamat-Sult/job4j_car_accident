@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-/*@Repository*/
+@Repository
 public class AccidentMem implements Store {
 
     private HashMap<Integer, AccidentType> accidentTypes = new HashMap<>();
@@ -20,6 +20,10 @@ public class AccidentMem implements Store {
     private HashMap<Integer, Rule> rules = new HashMap<>();
 
     private int accidentsCounter = 1;
+
+    public AccidentMem() {
+        init();
+    }
 
     @Override
     public void addAccident(Accident accident) {
@@ -72,8 +76,7 @@ public class AccidentMem implements Store {
         return rules.get(id);
     }
 
-    @Override
-    public void init() {
+    private void init() {
         if (accidentTypes.isEmpty()) {
             AccidentType accidentType1 = AccidentType.of(1, "Две машины");
             AccidentType accidentType2 = AccidentType.of(2, "Машина и человек");
