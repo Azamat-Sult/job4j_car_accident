@@ -2,6 +2,7 @@ package ru.job4j.accident.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
@@ -15,7 +16,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-/*@Repository*/
+@Repository
 public class AccidentJdbcTemplate implements Store {
 
     private final JdbcTemplate jdbc;
@@ -27,76 +28,73 @@ public class AccidentJdbcTemplate implements Store {
     @Override
     public void addAccident(Accident accident) {
         if (accident.getId() == 0) {
-            GeneratedKeyHolder holder = new GeneratedKeyHolder();
-            jdbc.update(new PreparedStatementCreator() {
-                @Override
-                public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                    PreparedStatement statement = con.prepareStatement(
-                            "insert into accidents (applicant_name, text, address, accidentType_id)"
-                                    + " values (?, ?, ?, ?)",
-                            new String[] {"id"});
-                    statement.setString(1, accident.getName());
-                    statement.setString(2, accident.getText());
-                    statement.setString(3, accident.getAddress());
-                    statement.setInt(4, accident.getType().getId());
-                    return statement;
-                }
-            }, holder);
-            long primaryKey = holder.getKey().longValue();
-            for (Rule rule : accident.getRules()) {
-                jdbc.update("insert into accident_rules (accident_id, rule_id) values (?, ?)",
-                        primaryKey, rule.getId());
-            }
+            addNewAccident(accident);
         } else {
-            jdbc.update("update accidents set applicant_name = ?, text = ?,"
-                            + " address = ?, accidentType_id = ? where id = ?",
-                    accident.getName(), accident.getText(), accident.getAddress(),
-                    accident.getType().getId(), accident.getId());
-            jdbc.update("delete from accident_rules where accident_id = ?",
-                    Long.valueOf(accident.getId()));
-            for (Rule rule : accident.getRules()) {
-                jdbc.update("insert into accident_rules (accident_id, rule_id) values (?, ?)",
-                        accident.getId(), rule.getId());
+            updateAccident(accident);
+        }
+    }
+
+    private void addNewAccident(Accident accident) {
+        GeneratedKeyHolder holder = new GeneratedKeyHolder();
+        jdbc.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement statement = con.prepareStatement(
+                        "insert into accidents (applicant_name, text, address, accidentType_id)"
+                                + " values (?, ?, ?, ?)",
+                        new String[] {"id"});
+                statement.setString(1, accident.getName());
+                statement.setString(2, accident.getText());
+                statement.setString(3, accident.getAddress());
+                statement.setInt(4, accident.getType().getId());
+                return statement;
             }
+        }, holder);
+        long primaryKey = holder.getKey().longValue();
+        for (Rule rule : accident.getRules()) {
+            jdbc.update("insert into accident_rules (accident_id, rule_id) values (?, ?)",
+                    primaryKey, rule.getId());
+        }
+    }
+
+    private void updateAccident(Accident accident) {
+        jdbc.update("update accidents set applicant_name = ?, text = ?,"
+                        + " address = ?, accidentType_id = ? where id = ?",
+                accident.getName(), accident.getText(), accident.getAddress(),
+                accident.getType().getId(), accident.getId());
+        jdbc.update("delete from accident_rules where accident_id = ?",
+                Long.valueOf(accident.getId()));
+        for (Rule rule : accident.getRules()) {
+            jdbc.update("insert into accident_rules (accident_id, rule_id) values (?, ?)",
+                    accident.getId(), rule.getId());
         }
     }
 
     @Override
     public Accident getAccidentById(int id) {
-        Accident accidentFound = jdbc.queryForObject(
+        return jdbc.queryForObject(
                 "select * from accidents as a join accidentTypes as atypes"
                         + " on a.accidentType_id = atypes.id where a.id = ?",
-                (resultSet, rowNum) -> {
-                    Accident accident = new Accident();
-                    accident.setId(resultSet.getInt("id"));
-                    accident.setName(resultSet.getString("applicant_name"));
-                    accident.setText(resultSet.getString("text"));
-                    accident.setAddress(resultSet.getString("address"));
-                    accident.setType(AccidentType.of(resultSet.getInt("accidentType_id"),
-                            resultSet.getString("type_name")));
-                    return accident;
-                },
-                id);
-        accidentFound.setRules(getAccidentsRulesById(accidentFound.getId()));
-        return accidentFound;
+                accidentRowMapper, id);
     }
 
     @Override
     public Collection<Accident> getAllAccidents() {
-        return jdbc.query(
-                "select * from accidents as a join accidentTypes as atypes on a.accidentType_id = atypes.id",
-                (rs, row) -> {
-                    Accident accident = new Accident();
-                    accident.setId(rs.getInt("id"));
-                    accident.setName(rs.getString("applicant_name"));
-                    accident.setText(rs.getString("text"));
-                    accident.setAddress(rs.getString("address"));
-                    accident.setType(AccidentType.of(rs.getInt("accidentType_id"),
-                            rs.getString("type_name")));
-                    accident.setRules(getAccidentsRulesById(accident.getId()));
-                    return accident;
-                });
+        return jdbc.query("select * from accidents as a join accidentTypes as atypes"
+                        + " on a.accidentType_id = atypes.id", accidentRowMapper);
     }
+
+    private final RowMapper<Accident> accidentRowMapper = (resultSet, rowNum) -> {
+        Accident accident = new Accident();
+        accident.setId(resultSet.getInt("id"));
+        accident.setName(resultSet.getString("applicant_name"));
+        accident.setText(resultSet.getString("text"));
+        accident.setAddress(resultSet.getString("address"));
+        accident.setType(AccidentType.of(resultSet.getInt("accidentType_id"),
+                resultSet.getString("type_name")));
+        accident.setRules(getAccidentsRulesById(accident.getId()));
+        return accident;
+    };
 
     @Override
     public void deleteAccident(int id) {
