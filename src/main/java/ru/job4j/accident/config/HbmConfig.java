@@ -19,7 +19,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class HbmConfig {
 
-    @Bean
+    /*@Bean
     public DataSource ds(@Value("${jdbc.driver}") String driver,
                          @Value("${jdbc.url}") String url,
                          @Value("${jdbc.username}") String username,
@@ -49,5 +49,5 @@ public class HbmConfig {
         HibernateTransactionManager tx = new HibernateTransactionManager();
         tx.setSessionFactory(sf);
         return tx;
-    }
+    }*/
 }
