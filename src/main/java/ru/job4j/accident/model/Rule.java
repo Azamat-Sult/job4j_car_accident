@@ -1,9 +1,14 @@
 package ru.job4j.accident.model;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "accidentRules")
 public class Rule {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
 
@@ -47,4 +52,8 @@ public class Rule {
         return Objects.hash(id);
     }
 
+    @Override
+    public String toString() {
+        return "Rule { " + "id=" + id + ", name='" + name + " }";
+    }
 }

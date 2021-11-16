@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-@Repository
+/*@Repository*/
 public class AccidentJdbcTemplate implements Store {
 
     private final JdbcTemplate jdbc;
@@ -40,7 +40,7 @@ public class AccidentJdbcTemplate implements Store {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                 PreparedStatement statement = con.prepareStatement(
-                        "insert into accidents (applicant_name, text, address, accidentType_id)"
+                        "insert into accidents (name, text, address, accidentType_id)"
                                 + " values (?, ?, ?, ?)",
                         new String[] {"id"});
                 statement.setString(1, accident.getName());
@@ -52,20 +52,20 @@ public class AccidentJdbcTemplate implements Store {
         }, holder);
         long primaryKey = holder.getKey().longValue();
         for (Rule rule : accident.getRules()) {
-            jdbc.update("insert into accident_rules (accident_id, rule_id) values (?, ?)",
+            jdbc.update("insert into accidents_accidentrules (accident_id, rules_id) values (?, ?)",
                     primaryKey, rule.getId());
         }
     }
 
     private void updateAccident(Accident accident) {
-        jdbc.update("update accidents set applicant_name = ?, text = ?,"
+        jdbc.update("update accidents set name = ?, text = ?,"
                         + " address = ?, accidentType_id = ? where id = ?",
                 accident.getName(), accident.getText(), accident.getAddress(),
                 accident.getType().getId(), accident.getId());
-        jdbc.update("delete from accident_rules where accident_id = ?",
+        jdbc.update("delete from accidents_accidentrules where accident_id = ?",
                 Long.valueOf(accident.getId()));
         for (Rule rule : accident.getRules()) {
-            jdbc.update("insert into accident_rules (accident_id, rule_id) values (?, ?)",
+            jdbc.update("insert into accidents_accidentrules (accident_id, rules_id) values (?, ?)",
                     accident.getId(), rule.getId());
         }
     }
@@ -87,7 +87,7 @@ public class AccidentJdbcTemplate implements Store {
     private final RowMapper<Accident> accidentRowMapper = (resultSet, rowNum) -> {
         Accident accident = new Accident();
         accident.setId(resultSet.getInt("id"));
-        accident.setName(resultSet.getString("applicant_name"));
+        accident.setName(resultSet.getString("name"));
         accident.setText(resultSet.getString("text"));
         accident.setAddress(resultSet.getString("address"));
         accident.setType(AccidentType.of(resultSet.getInt("accidentType_id"),
@@ -98,7 +98,7 @@ public class AccidentJdbcTemplate implements Store {
 
     @Override
     public void deleteAccident(int id) {
-        jdbc.update("delete from accident_rules where accident_id = ?", Long.valueOf(id));
+        jdbc.update("delete from accidents_accidentrules where accident_id = ?", Long.valueOf(id));
         jdbc.update("delete from accidents where id = ?", Long.valueOf(id));
     }
 
@@ -148,9 +148,9 @@ public class AccidentJdbcTemplate implements Store {
 
     private Set<Rule> getAccidentsRulesById(int id) {
         Collection<Rule> rulesFound = jdbc.query(
-                "select * from accident_rules where accident_id = ?",
+                "select * from accidents_accidentrules where accident_id = ?",
                 (resultSet, rowNum) -> {
-                    return getAccidentRuleById(resultSet.getInt("rule_id"));
+                    return getAccidentRuleById(resultSet.getInt("rules_id"));
                 }, id);
         Set<Rule> rules = new HashSet<>();
         for (Rule rule : rulesFound) {

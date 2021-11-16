@@ -16,12 +16,12 @@ public interface Store {
 
     void deleteAccident(int id);
 
-    Collection<AccidentType> getAllAccidentTypes();
-
     AccidentType getAccidentTypeById(int id);
 
-    Collection<Rule> getAllAccidentRules();
+    Collection<AccidentType> getAllAccidentTypes();
 
     Rule getAccidentRuleById(int id);
+
+    Collection<Rule> getAllAccidentRules();
 
 }
