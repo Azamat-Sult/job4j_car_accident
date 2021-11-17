@@ -25,7 +25,12 @@
     <div class="row justify-content-end">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>">На главную</a>
+                Пользователь : ${user.username} |
+            </li>
+        </ul>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>"> На главную</a>
             </li>
         </ul>
     </div>

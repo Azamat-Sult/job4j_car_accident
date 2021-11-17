@@ -12,7 +12,7 @@ import ru.job4j.accident.model.Rule;
 import java.util.Collection;
 import java.util.function.Function;
 
-@Repository
+/*@Repository*/
 public class AccidentHibernate implements Store {
 
     private final SessionFactory sf;

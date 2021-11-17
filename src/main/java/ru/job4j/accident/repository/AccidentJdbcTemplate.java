@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-/*@Repository*/
+@Repository
 public class AccidentJdbcTemplate implements Store {
 
     private final JdbcTemplate jdbc;
