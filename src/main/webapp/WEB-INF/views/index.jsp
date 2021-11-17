@@ -26,12 +26,12 @@
     <div class="row justify-content-end">
         <ul class="nav">
             <li class="nav-item">
-                Пользователь : ${user.username} |
+                Пользователь : ${user.username} |&nbsp
             </li>
         </ul>
         <ul class="nav">
             <li class="nav-item">
-                <a href="<c:url value='/create'/>"> Добавить инцидент</a>
+                <a href="<c:url value='/create'/>">Добавить инцидент</a>
             </li>
         </ul>
     </div>

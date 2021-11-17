@@ -17,29 +17,22 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <title>Авторизация</title>
+    <title>Регистрация</title>
 
 </head>
 <body>
 <div class="container">
-    <div class="row justify-content-end">
-        <ul class="nav">
-            <li class="nav-item">
-                <a href="<c:url value='/reg'/>">Регистрация</a>
-            </li>
-        </ul>
-    </div>
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
                 <ul class="nav nav-pills nav-fill">
                     <li class="nav-item">
-                        Авторизация
+                        Регистрация в системе
                     </li>
                 </ul>
             </div>
             <div class="card-body">
-                <form name='login' action="<c:url value='/login'/>" method='POST'>
+                <form name='login' action="<c:url value='/reg'/>" method='POST'>
                     <div class="form-group">
                         <label for="username">Имя пользователя</label>
                         <input type="text" class="form-control" name="username" id="username">
@@ -48,13 +41,7 @@
                         <label for="password">Пароль</label>
                         <input type="password" class="form-control" name="password" id="password">
                     </div>
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                    <button type="submit" class="btn btn-primary">Войти</button>
-                    <c:if test="${not empty errorMessage}">
-                        <div style="color:red; font-weight: bold; margin: 30px 0px;">
-                                ${errorMessage}
-                        </div>
-                    </c:if>
+                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
                 </form>
             </div>
         </div>
