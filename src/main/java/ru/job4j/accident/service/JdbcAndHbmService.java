@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-/*@Service*/
+@Service
 public class JdbcAndHbmService implements AccidentService {
 
     private Store store;
