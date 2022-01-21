@@ -28,6 +28,9 @@
             <li class="nav-item">
                 Пользователь : ${user.username} |&nbsp
             </li>
+            <li class="nav-item">
+                <a href="<c:url value='/logout'/>">Выйти |&nbsp</a>
+            </li>
         </ul>
         <ul class="nav">
             <li class="nav-item">
